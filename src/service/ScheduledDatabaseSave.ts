@@ -111,7 +111,7 @@ async function saveTomorrowForecast(forecastFrom: string) {
         });
 
     await TomorrowModel.bulkSave(forecasts);
-    console.log('Forecast from Tommorow.io saved');
+    console.log(`Forecast from Tommorow.io saved on ${forecastFrom}`);
 }
 
 async function saveOpenMeteoForecast(forecastFrom: string) {
@@ -147,7 +147,7 @@ async function saveOpenMeteoForecast(forecastFrom: string) {
         });
 
     await OpenMeteoModel.bulkSave(forecasts);
-    console.log('Forecast from OpenMeteo saved');
+    console.log(`Forecast from OpenMeteo saved on ${forecastFrom}`);
 }
 
 async function saveVisualCrossingForecast(forecastFrom: string) {
@@ -183,6 +183,6 @@ async function saveVisualCrossingForecast(forecastFrom: string) {
         });
 
     await VisualCrossingModel.bulkSave(forecasts);
-    console.log('Forecast from VisualCrossing saved');
+    console.log(`Forecast from VisualCrossing saved on ${forecastFrom}`);
 }
 
