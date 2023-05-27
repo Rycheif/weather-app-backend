@@ -9,4 +9,4 @@ export interface ITomorrowModel extends ITomorrow, Document {
 
 }
 
-export default mongoose.model<ITomorrowModel>('TomorrowApi', ForecastSchema);
+export default mongoose.model<ITomorrowModel>('tomorrowapis', ForecastSchema);

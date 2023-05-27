@@ -9,4 +9,4 @@ export interface IVisualCrossingModel extends IVisualCrossing, Document {
 
 }
 
-export default mongoose.model<IVisualCrossingModel>('VisualCrossing', ForecastSchema);
+export default mongoose.model<IVisualCrossingModel>('visualcrossings', ForecastSchema);

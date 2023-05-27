@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import express from "express";
 import * as http from "http";
 import scheduleDatabaseSave from "./service/ScheduledDatabaseSave";
+import ForecastRoutes from "./routes/ForecastRoutes";
+
 
 const router = express();
 
@@ -45,9 +47,13 @@ function StartServer() {
         next();
     });
 
+    router.get("/ping", (req, res, next) => res.status(200).json({ message: "pong" }));
 
-    router.get('/ping', (req, res, next) =>
-        res.status(200).json({message: 'pong'}));
+
+
+    const forecastRoutes = new ForecastRoutes();
+    router.use("/forecasts", forecastRoutes.router);
+
     router.use((req, res, next) => {
         const error = new Error('Not Found');
         console.error(error);
@@ -55,7 +61,5 @@ function StartServer() {
     });
 
     http.createServer(router)
-        .listen(config.server.port, () =>
-            console.info(`Server is running on port ${config.server.port}`));
-
+        .listen(config.server.port, () => console.info(`Server is running on port ${config.server.port}`));
 }
