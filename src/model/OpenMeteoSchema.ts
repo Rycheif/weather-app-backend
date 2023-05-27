@@ -9,4 +9,4 @@ export interface IOpenMeteoModel extends IOpenMeteo, Document {
 
 }
 
-export default mongoose.model<IOpenMeteoModel>('MeteoWeather', ForecastSchema);
+export default mongoose.model<IOpenMeteoModel>('meteoweathers', ForecastSchema);
