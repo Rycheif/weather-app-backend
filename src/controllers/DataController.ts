@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import {NextFunction, Request, Response} from "express";
 import VisualCrossingSchema from "../model/VisualCrossingSchema";
 import OpenMeteoSchema from "../model/OpenMeteoSchema";
 import TomorrwSchema from "../model/TomorrwSchema";
@@ -43,7 +43,8 @@ class DataController {
         if (!Collection) {
             return null;
         }
-        return await Collection.find({ forecastFrom: date });
+        return await Collection.find({ forecastFrom: new RegExp(date.split('T')[0]) })
+            .sort({time: 1});
     }
 
     private async getDataByRange(
@@ -57,7 +58,7 @@ class DataController {
         }
         return await Collection.find({
             forecastFrom: { $gte: startDate, $lte: endDate },
-        });
+        }).sort({time: 1});
     }
 }
 
