@@ -50,7 +50,7 @@ class DataController {
             {
                 $group: {
                     _id: "$time",
-                    cos: {
+                    forecast: {
                         $first: {
                             forecastFrom: "$forecastFrom",
                             time: "$time",
