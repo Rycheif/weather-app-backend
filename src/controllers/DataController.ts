@@ -13,8 +13,8 @@ class DataController {
 
     public getForecast = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const { collection } = req.params;
-            const { date, startDate, endDate } = req.query;
+            const {collection} = req.params;
+            const {date, startDate, endDate} = req.query;
 
             let data;
 
@@ -24,17 +24,17 @@ class DataController {
                 data = await this.getDataByRange(collection, startDate as string, endDate as string
                 );
             } else {
-                return res.status(400).json({ message: "Invalid parameters" });
+                return res.status(400).json({message: "Invalid parameters"});
             }
 
             if (!data) {
-                return res.status(404).json({ message: "Data not found" });
+                return res.status(404).json({message: "Data not found"});
             }
 
-            res.json({ data });
+            res.json({data});
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "A server error has occurred" });
+            res.status(500).json({message: "A server error has occurred"});
         }
     };
 
@@ -43,8 +43,31 @@ class DataController {
         if (!Collection) {
             return null;
         }
-        return await Collection.find({ forecastFrom: new RegExp(date.split('T')[0]) })
-            .sort({time: 1});
+        return await Collection.aggregate([
+            {
+                $match: {forecastFrom: new RegExp(date.split('T')[0])}
+            },
+            {
+                $group: {
+                    _id: "$time",
+                    cos: {
+                        $first: {
+                            forecastFrom: "$forecastFrom",
+                            time: "$time",
+                            temperature: "$temperature",
+                            feelsLike: "$feelsLike",
+                            rain: "$rain",
+                            precipitationProbability: "$precipitationProbability",
+                            humidity: "$humidity",
+                            forecastSource: "$forecastSource"
+                        }
+                    }
+                }
+            },
+            {
+                $sort: {_id: 1}
+            }
+        ]);
     }
 
     private async getDataByRange(
@@ -56,9 +79,31 @@ class DataController {
         if (!Collection) {
             return null;
         }
-        return await Collection.find({
-            forecastFrom: { $gte: startDate, $lte: endDate },
-        }).sort({time: 1});
+        return await Collection.aggregate([
+            {
+                $match: {forecastFrom: {$gte: startDate, $lte: endDate}}
+            },
+            {
+                $group: {
+                    _id: "$time",
+                    forecast: {
+                        $first: {
+                            forecastFrom: "$forecastFrom",
+                            time: "$time",
+                            temperature: "$temperature",
+                            feelsLike: "$feelsLike",
+                            rain: "$rain",
+                            precipitationProbability: "$precipitationProbability",
+                            humidity: "$humidity",
+                            forecastSource: "$forecastSource"
+                        }
+                    }
+                }
+            },
+            {
+                $sort: {_id: 1}
+            }
+        ]);
     }
 }
 
