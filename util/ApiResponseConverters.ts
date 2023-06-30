@@ -1,7 +1,7 @@
 import {OpenMeteoApiResponse} from "../src/model/responses/OpenMeteoApiResponse";
 import {IForecast} from "../src/model/Forecast";
-import {VisualCrossingApiResponse, VCWeatherHour} from "../src/model/responses/VisualCrossingApiResponse";
-import {TomorrowApiResponse, TomorrowWeatherHour} from "../src/model/responses/TomorrowApiResponse";
+import {VCWeatherHour, VisualCrossingApiResponse} from "../src/model/responses/VisualCrossingApiResponse";
+import {TomorrowApiResponse} from "../src/model/responses/TomorrowApiResponse";
 
 function convertOpenMeteoResponse(response: OpenMeteoApiResponse, dateOfForecast: string) {
     const {hourly} = response;

@@ -15,14 +15,12 @@ class DataController {
         try {
             const {collection} = req.params;
             const {date, startDate, endDate} = req.query;
-
             let data;
 
             if (date) {
                 data = await this.getDataByDate(collection, date as string);
             } else if (startDate && endDate) {
-                data = await this.getDataByRange(collection, startDate as string, endDate as string
-                );
+                data = await this.getDataByRange(collection, startDate as string, endDate as string);
             } else {
                 return res.status(400).json({message: "Invalid parameters"});
             }
